@@ -95,7 +95,7 @@ def main():
         st.text("This is a Machine Learning project made in the 2024")
         st.text("Ethiopian Artificial Intelligence Institute Summer Camp.")
         st. text("It recommends the amount of fertlizer you need to get the")
-        st. text("level  of nutrients your crop needs for ideal growth.")
+        st. text("level of nutrients your crop needs for ideal growth.")
 
 if __name__ == '__main__':
     main()
