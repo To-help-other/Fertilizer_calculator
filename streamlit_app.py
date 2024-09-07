@@ -16,7 +16,7 @@ stacking_model_K = load_model("stacking_model_K.pkl")
 def calculate_deficiency(predicted, actual):
     return max(0, predicted - actual)
 
-def predict_amount_of_fertilizer(N, P, K, temperature, humidity, ph, rainfall, label):
+def predict_amount_of_fertilizer(N, P, K, temperature, humidity, ph, rainfall, hectares, label):
     input_data = [[temperature, humidity, ph, rainfall, label]]
     
     # Predictions
@@ -34,68 +34,73 @@ def predict_amount_of_fertilizer(N, P, K, temperature, humidity, ph, rainfall, l
 
     # Calculate recommendations
     if deficient_K > 0:
-        MOP = deficient_K / 0.6
+        deficient_K_levels = deficient_K * (2.24 * hectares)
+        MOP = deficient_K_levels / 0.6
 
     if deficient_P > 0:
-        DAP = deficient_P / 0.6
+        deficient_P_levels = deficient_P * (2.24 * hectares)
+        DAP = deficient_P_levels / 0.6
         remaining_deficient_N = max(0, deficient_N - (DAP * 0.18))
     else:
         remaining_deficient_N = deficient_N
 
     if remaining_deficient_N > 0:
-        Urea = remaining_deficient_N / 0.6
+        remaining_deficient_N_levels = remaining_deficient_N * (2.24 * hectares)
+        Urea = remaining_deficient_N_levels / 0.6
 
     # Prepare recommendation message
     recommendation_message = []
     if MOP > 0:
-        recommendation_message.append(f"{MOP:.2f} kgs of MOP")
+        recommendation_message.append(f"{MOP:.2f} ኪሎ ግራም ሞፕ")
     if DAP > 0:
-        recommendation_message.append(f"{DAP:.2f} kgs of DAP")
+        recommendation_message.append(f"{DAP:.2f} ኪሎ ግራም ዳፕ")
     if Urea > 0:
-        recommendation_message.append(f"{Urea:.2f} kgs of Urea")
+        recommendation_message.append(f"{Urea:.2f} ኪሎ ግራም ዩሪያ")
 
     if recommendation_message:
-        return "We recommend you add " + ", ".join(recommendation_message) + "."
+        return "እንዲጨምሩ ምንመክርዎት " + ", ".join(recommendation_message) + "."
     else:
-        return "No fertilizer recommendation needed."
+        return "ተጨማሪ ማዳበሪያ አያስፈልግም።"
 
 def main():
-    st.title("Fertilizer Recommender")
 
     # Styling for Streamlit
     st.markdown("""
-    <div style="background-color:tomato;padding:10px">
-    <h2 style="color:white;text-align:center;">Streamlit Fertilizer Recommender ML App </h2>
+    <div style="background-color:green;padding:10px">
+    <h1 style="color:white;text-align:center;">ኢትዮጵያ አርቴፊሻል ኢንተለጀንስ ኢንስቲትዩት </h1>
+    <h2 style="color:white;text-align:center;"> የማዳበሪያ አማካሪ አርቴፊሻል ኢንተለጀንስ መተግበሪያ</h2>
     </div>
     """, unsafe_allow_html=True)
 
+
     # Input fields
-    N_amount = st.number_input('N concentration (mg/L) of the soil', min_value=0.0, step=0.01, format="%.2f")
-    P_amount = st.number_input('P concentration (mg/L) of the soil', min_value=0.0, step=0.01, format="%.2f")
-    K_amount = st.number_input('K concentration (mg/L) of the soil', min_value=0.0, step=0.01, format="%.2f")
-    temperature = st.number_input('Soil temperature (°C)', min_value=0.0, step=0.01, format="%.2f")
-    humidity = st.number_input('Humidity of the air (%)', min_value=0.0, max_value=100.0, step=0.0001, format="%.4f")
-    ph = st.number_input('pH Level', min_value=0.0, step=0.000000000000001, format="%.15f")
-    rainfall = st.number_input('Amount of Rainfall/Irrigation (mm)', min_value=0.00, step=0.01, format="%.2f")
-    
+      
     # Crop types
-    my_list = ['apple', 'banana', 'blackgram', 'chickpea', 'coconut', 'coffee', 'cotton', 'grapes', 'jute', 'lentil', 'maize', 'mango', 'mothbeans', 'mungbean', 'muskmelon', 'orange', 'papaya', 'pigeonpeas', 'pomegranate', 'rice', 'watermelon']
+    my_list = ['ፖም', 'ሙዝ', 'አደንግዋሬ/ቦሎቄ', 'ሽምብራ', 'ኮኮናት', 'ቡና', 'ጥጥ', 'ወይን', 'ጁት', 'ምስር', 'በቆሎ', 'ማንጎ', 'አኩሪአተር', 'ማሾ', 'መስክሜሎን', 'ብርቱካን', 'ፓፓያ', 'ርግብ አተር', 'ሮማን', 'ሩዝ', 'ሀብሃብ']
     crop_dict = {crop: idx for idx, crop in enumerate(my_list)}
     
     label = st.selectbox('Type of Crop', my_list)
     crop_type = crop_dict[label]
-
+    
+    hectares = st.number_input('በሰብል የተሸፈነው መሬት መጠን (በሄክታር)', min_value=0.00, step=0.01, format="%.2f")
+    N_amount = st.number_input('የአፈር ውስጥ የናይትሮጂን መጠን (ሚግ / ኪግ)', min_value=0.0, step=0.01, format="%.2f")
+    P_amount = st.number_input('የአፈር ውስጥ የፎስፈረስ መጠን (ሚግ / ኪግ)', min_value=0.0, step=0.01, format="%.2f")
+    K_amount = st.number_input('የአፈር ውስጥ የፖታስየም መጠን (ሚግ / ኪግ)', min_value=0.0, step=0.01, format="%.2f")
+    temperature = st.number_input('አማካይ የሙቀት መጠን (°C)', min_value=0.0, step=0.01, format="%.2f")
+    humidity = st.number_input('የአየር እርጥበት መጠን (%)', min_value=0.0, max_value=100.0, step=0.0001, format="%.4f")
+    ph = st.number_input('ፒኤች(pH) መጠን ', min_value=0.0, step=0.000000000000001, format="%.15f")
+    rainfall = st.number_input('አማካይ የዝናብ መጠን (ሚሚ)', min_value=0.00, step=0.01, format="%.2f")
+    
+  
     result = ""
-    if st.button("Predict"):
-        result = predict_amount_of_fertilizer(N_amount, P_amount, K_amount, temperature, humidity, ph, rainfall, crop_type)
+    if st.button("መተንበይ"):
+        result = predict_amount_of_fertilizer(N_amount, P_amount, K_amount, temperature, humidity, ph, rainfall, hectares, crop_type)
     
     st.success(result)
 
-    if st.button("About"):
-        st.text("This is a Machine Learning project made in the 2024")
-        st.text("Ethiopian Artificial Intelligence Institute Summer Camp.")
-        st. text("It recommends the amount of fertlizer you need to get the")
-        st. text("level of nutrients your crop needs for ideal growth.")
+    if st.button("ስለዚህ መተግበሪያ"):
+        st.text("ይህ በኢትዮጵያ አርቲፊሻል ኢንተለጀንስ ኢንስቲትዩት የ2024 ክረምት ካምፕ")
+        st.text("ውስጥ የተሰራ የማሽን መማሪያ ፕሮጀክት ነው።")
 
 if __name__ == '__main__':
     main()
