@@ -66,7 +66,7 @@ def main():
 
     # Styling for Streamlit
     st.markdown("""
-    <div style="background-color:green;padding:10px">
+    <div style="background-color:blue;padding:10px">
     <h1 style="color:white;text-align:center;">ኢትዮጵያ አርቴፊሻል ኢንተለጀንስ ኢንስቲትዩት </h1>
     <h2 style="color:white;text-align:center;"> የማዳበሪያ አማካሪ አርቴፊሻል ኢንተለጀንስ መተግበሪያ</h2>
     </div>
