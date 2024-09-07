@@ -63,7 +63,7 @@ def predict_amount_of_fertilizer(N, P, K, temperature, humidity, ph, rainfall, h
         return "ተጨማሪ ማዳበሪያ አያስፈልግም።"
 
 def main():
-    st.logo('Artificial Intelligence Institute.jpg')
+    st.image('Artificial Intelligence Institute.jpg')
     # Styling for Streamlit
     st.markdown("""
     <div style="background-color:blue;padding:10px">
