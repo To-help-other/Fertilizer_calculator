@@ -79,7 +79,7 @@ def main():
     my_list = ['ፖም', 'ሙዝ', 'አደንግዋሬ/ቦሎቄ', 'ሽምብራ', 'ኮኮናት', 'ቡና', 'ጥጥ', 'ወይን', 'ጁት', 'ምስር', 'በቆሎ', 'ማንጎ', 'አኩሪአተር', 'ማሾ', 'መስክሜሎን', 'ብርቱካን', 'ፓፓያ', 'ርግብ አተር', 'ሮማን', 'ሩዝ', 'ሀብሃብ']
     crop_dict = {crop: idx for idx, crop in enumerate(my_list)}
     
-    label = st.selectbox('Type of Crop', my_list)
+    label = st.selectbox('የሚተከለው የሰብል አይነት', my_list)
     crop_type = crop_dict[label]
     
     hectares = st.number_input('በሰብል የተሸፈነው መሬት መጠን (በሄክታር)', min_value=0.00, step=0.01, format="%.2f")
