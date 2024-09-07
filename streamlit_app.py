@@ -53,7 +53,7 @@ def predict_amount_of_fertilizer(N, P, K, temperature, humidity, ph, rainfall, h
     if MOP > 0:
         recommendation_message.append(f"{MOP:.2f} ኪሎ ግራም ሞፕ")
     if DAP > 0:
-        recommendation_message.append(f"{DAP:.2f} ኪሎ ግራም ዳፕ")
+        recommendation_message.append(f"{DAP:.2f} ኪሎ ግራም ዲኤፒ")
     if Urea > 0:
         recommendation_message.append(f"{Urea:.2f} ኪሎ ግራም ዩሪያ")
 
@@ -68,7 +68,7 @@ def main():
     st.markdown("""
     <div style="background-color:blue;padding:10px">
     <h1 style="color:white;text-align:center;">ኢትዮጵያ አርቴፊሻል ኢንተለጀንስ ኢንስቲትዩት </h1>
-    <h2 style="color:white;text-align:center;"> የማዳበሪያ አማካሪ አርቴፊሻል ኢንተለጀንስ መተግበሪያ</h2>
+    <h2 style="color:white;text-align:center;"> የማዳበሪያ አማካሪ መተግበሪያ</h2>
     </div>
     """, unsafe_allow_html=True)
 
