@@ -58,49 +58,64 @@ def predict_amount_of_fertilizer(N, P, K, temperature, humidity, ph, rainfall, h
         recommendation_message.append(f"{Urea:.2f} ኪሎ ግራም ዩሪያ")
 
     if recommendation_message:
-        return "እንዲጨምሩ ምንመክርዎት " + ", ".join(recommendation_message) + "."
+        return "ለእርሻችሁ እንዲጨምሩ ምንመክርዎት " + "፣ ".join(recommendation_message) + "።"
     else:
         return "ተጨማሪ ማዳበሪያ አያስፈልግም።"
 
 def main():
     st.image('Artificial Intelligence Institute.jpg')
+    
     # Styling for Streamlit
     st.markdown("""
-    <div style="background-color:blue;padding:10px">
-    <h1 style="color:white;text-align:center;">ኢትዮጵያ አርቴፊሻል ኢንተለጀንስ ኢንስቲትዩት </h1>
+    <div style="background-color:#1E90FF;padding:10px;border-radius:10px;">
+    <h1 style="color:white;text-align:center;">የኢትዮጵያ አርቴፊሻል ኢንተለጀንስ ኢንስቲትዩት </h1>
     <h2 style="color:white;text-align:center;"> የማዳበሪያ አማካሪ መተግበሪያ</h2>
     </div>
     """, unsafe_allow_html=True)
 
+    st.sidebar.header('እባክዎ መረጃዎትን ያስገቡ')
 
-    # Input fields
-      
-    # Crop types
+    # Input fields on sidebar
     my_list = ['ፖም', 'ሙዝ', 'አደንግዋሬ/ቦሎቄ', 'ሽምብራ', 'ኮኮናት', 'ቡና', 'ጥጥ', 'ወይን', 'ጁት', 'ምስር', 'በቆሎ', 'ማንጎ', 'አኩሪአተር', 'ማሾ', 'መስክሜሎን', 'ብርቱካን', 'ፓፓያ', 'ርግብ አተር', 'ሮማን', 'ሩዝ', 'ሀብሃብ']
     crop_dict = {crop: idx for idx, crop in enumerate(my_list)}
     
-    label = st.selectbox('የሚተከለው የሰብል አይነት', my_list)
+    label = st.sidebar.selectbox('የሚተከለው የሰብል አይነት', my_list)
     crop_type = crop_dict[label]
     
-    hectares = st.number_input('በሰብል የተሸፈነው መሬት መጠን (በሄክታር)', min_value=0.00, step=0.01, format="%.2f")
-    N_amount = st.number_input('የአፈር ውስጥ የናይትሮጂን መጠን (ሚግ / ኪግ)', min_value=0.0, step=0.01, format="%.2f")
-    P_amount = st.number_input('የአፈር ውስጥ የፎስፈረስ መጠን (ሚግ / ኪግ)', min_value=0.0, step=0.01, format="%.2f")
-    K_amount = st.number_input('የአፈር ውስጥ የፖታስየም መጠን (ሚግ / ኪግ)', min_value=0.0, step=0.01, format="%.2f")
-    temperature = st.number_input('አማካይ የሙቀት መጠን (°C)', min_value=0.0, step=0.01, format="%.2f")
-    humidity = st.number_input('የአየር እርጥበት መጠን (%)', min_value=0.0, max_value=100.0, step=0.0001, format="%.4f")
-    ph = st.number_input('ፒኤች(pH) መጠን ', min_value=0.0, step=0.000000000000001, format="%.15f")
-    rainfall = st.number_input('አማካይ የዝናብ መጠን (ሚሚ)', min_value=0.00, step=0.01, format="%.2f")
-    
-  
+    hectares = st.sidebar.number_input('በሰብል የተሸፈነው መሬት መጠን (በሄክታር)', min_value=0.00, step=0.01, format="%.2f")
+    N_amount = st.sidebar.number_input('የአፈር ውስጥ የናይትሮጂን መጠን (ሚግ / ኪግ)', min_value=0.0, step=0.01, format="%.2f")
+    P_amount = st.sidebar.number_input('የአፈር ውስጥ የፎስፈረስ መጠን (ሚግ / ኪግ)', min_value=0.0, step=0.01, format="%.2f")
+    K_amount = st.sidebar.number_input('የአፈር ውስጥ የፖታስየም መጠን (ሚግ / ኪግ)', min_value=0.0, step=0.01, format="%.2f")
+    temperature = st.sidebar.number_input('አማካይ የሙቀት መጠን (°C)', min_value=0.0, step=0.01, format="%.2f")
+    humidity = st.sidebar.number_input('የአየር እርጥበት መጠን (%)', min_value=0.0, max_value=100.0, step=0.0001, format="%.4f")
+    ph = st.sidebar.number_input('ፒኤች(pH) መጠን ', min_value=0.0, step=0.000000000000001, format="%.15f")
+    rainfall = st.sidebar.number_input('አማካይ የዝናብ መጠን (ሚሚ)', min_value=0.00, step=0.01, format="%.2f")
+
     result = ""
+    st.write("")
+    st.write("")
+
     if st.button("መተንበይ"):
         result = predict_amount_of_fertilizer(N_amount, P_amount, K_amount, temperature, humidity, ph, rainfall, hectares, crop_type)
     
+    # Add space between the button and the next section
+    
+
     st.success(result)
 
-    if st.button("ስለዚህ መተግበሪያ"):
-        st.text("ይህ በኢትዮጵያ አርቲፊሻል ኢንተለጀንስ ኢንስቲትዩት የ2024 ክረምት ካምፕ")
-        st.text("ውስጥ የተሰራ የማሽን መማሪያ ፕሮጀክት ነው።")
+    with st.expander("ስለዚህ መተግበሪያ"):
+        st.text("በምርምር የተገኘ ዳታን መሰረት በማድረግ ፈጣን ምላሽ የሚሰጥ መሆኑ፣")
+        st.text("ምርታማነትን ከ 10% እስከ 30% ድረስ ማሳደግ የሚያስችል መሆኑ (ተጨማሪ መረጃ:https://shorturl.at/h5JSz እና https://shorturl.at/2xchr)")
+        st.text("ለምሳሌ የ2015 ዓ.ም የቡና ምርት: 501,000 ቶን ቡና ተመርቶ ነበር።")
+        st.text("በ10% ጭማሪ: 551,000 ቶን" )
+        st.text("በ30% ጭማሪ : 651,000 ቶን") 
+        st.text("እስከ 150,000 ተጨማሪ ቶን የበለጠ ማምረት ሊያስችለን መሆኑ፣")
+        st.text("የማዳበሪያ ማነስ ችግሮች: የምርታማነት መቀነስ፣ ያፈር ማዕድናት መመናመንና የተክሉ ጤና መታወክ።")
+        st.text("የማዳበሪያ መብዛት: የአካባቢ/ኤኮኖሚ ኪሳራ፣ ጎጂ የአካባቢ ብክለት፣")
+        st.text("የአፈር ምርታማነት መቀነስ (degradation)፣ የአፈር አሲዳማነት መጨመር እናም የተክል ጥራት ይቀንሳል።")
+        st.text("የሳይንሳዊ መረጃን ከሰው ሰራሽ አስተውሎት ጋር በማጣመር የምናገኘውን የተመጠነ (optimum)")
+        st.text("የማዳበሪያ መጠን የእርሻ ዘላቂነት (Sustainability) ማረጋገጥ ያስችለናል።")
+        st.text("የአርቴፊሻል ኢንተለጀንስ ሙከራችን ይህን ይመስላል።")
 
 if __name__ == '__main__':
     main()
