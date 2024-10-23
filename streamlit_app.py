@@ -68,7 +68,7 @@ def main():
     # Styling for Streamlit
     st.markdown("""
     <div style="background-color:#1E90FF;padding:10px;border-radius:10px;">
-    <h1 style="color:white;text-align:center;">የኢትዮጵያ አርቴፊሻል ኢንተለጀንስ ኢንስቲትዩት </h1>
+    <h1 style="color:white;text-align:center;"> አርቴፊሻል ኢንተለጀንስ </h1>
     <h2 style="color:white;text-align:center;"> የማዳበሪያ አማካሪ መተግበሪያ</h2>
     </div>
     """, unsafe_allow_html=True)
@@ -83,13 +83,13 @@ def main():
     crop_type = crop_dict[label]
     
     hectares = st.sidebar.number_input('በሰብል የተሸፈነው መሬት መጠን (በሄክታር)', min_value=0.00, step=0.01, format="%.2f")
-    N_amount = st.sidebar.number_input('የአፈር ውስጥ የናይትሮጂን መጠን (ሚግ / ኪግ)', min_value=0.0, step=0.01, format="%.2f")
-    P_amount = st.sidebar.number_input('የአፈር ውስጥ የፎስፈረስ መጠን (ሚግ / ኪግ)', min_value=0.0, step=0.01, format="%.2f")
-    K_amount = st.sidebar.number_input('የአፈር ውስጥ የፖታስየም መጠን (ሚግ / ኪግ)', min_value=0.0, step=0.01, format="%.2f")
-    temperature = st.sidebar.number_input('አማካይ የሙቀት መጠን (°C)', min_value=0.0, step=0.01, format="%.2f")
-    humidity = st.sidebar.number_input('የአየር እርጥበት መጠን (%)', min_value=0.0, max_value=100.0, step=0.0001, format="%.4f")
-    ph = st.sidebar.number_input('ፒኤች(pH) መጠን ', min_value=0.0, step=0.000000000000001, format="%.15f")
-    rainfall = st.sidebar.number_input('አማካይ የዝናብ መጠን (ሚሚ)', min_value=0.00, step=0.01, format="%.2f")
+    N_amount = st.sidebar.number_input('የአፈር ውስጥ የናይትሮጂን መጠን (ሚግ / ኪግ)', min_value=0.0, step=0.01, format="%.0f")
+    P_amount = st.sidebar.number_input('የአፈር ውስጥ የፎስፈረስ መጠን (ሚግ / ኪግ)', min_value=0.0, step=0.01, format="%.0f")
+    K_amount = st.sidebar.number_input('የአፈር ውስጥ የፖታስየም መጠን (ሚግ / ኪግ)', min_value=0.0, step=0.01, format="%.0f")
+    temperature = st.sidebar.number_input('አማካይ የሙቀት መጠን (°C)', min_value=0.0, step=0.01, format="%.1f")
+    humidity = st.sidebar.number_input('የአየር እርጥበት መጠን (%)', min_value=0.0, max_value=100.0, step=0.0001, format="%.2f")
+    ph = st.sidebar.number_input('ፒኤች(pH) መጠን ', min_value=0.0, step=0.000000000000001, format="%.2f")
+    rainfall = st.sidebar.number_input('አማካይ የዝናብ መጠን (ሚሚ)', min_value=0.00, step=0.01, format="%.1f")
 
     result = ""
     st.write("")
@@ -104,7 +104,9 @@ def main():
     st.success(result)
 
     with st.expander("ስለዚህ መተግበሪያ"):
-        st.text("በምርምር የተገኘ ዳታን መሰረት በማድረግ ፈጣን ምላሽ የሚሰጥ መሆኑ፣")
+        st.text("በእውቀት እና ገንዘብ እጥረት ምክንያት የታዳጊ ሃገራት (ኢትዮጵያም ጭምር)")
+        st.text("አላግባብ የማዳበሪአ አጠቃቀም ትልቅ ችግር ስለሆነ ነው።")
+        st.text("ኤይ.አይ በምርምር እና ሙከራ የተገኘ ዳታን መሰረት በማድረግ ፈጣን ምላሽ የሚሰጥ መሆኑ፣")
         st.text("ምርታማነትን ከ 10% እስከ 30% ድረስ ማሳደግ የሚያስችል መሆኑ (ተጨማሪ መረጃ:https://shorturl.at/h5JSz እና https://shorturl.at/2xchr)")
         st.text("ለምሳሌ የ2015 ዓ.ም የቡና ምርት: 501,000 ቶን ቡና ተመርቶ ነበር።")
         st.text("በ10% ጭማሪ: 551,000 ቶን" )
